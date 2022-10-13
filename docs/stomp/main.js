@@ -39,7 +39,8 @@ r rr r
 
 options = {
   viewSize: {x: G.WIDTH, y: G.HEIGHT},
-  isReplayEnabled: true
+  isReplayEnabled: true,
+  isPlayingBgm: true
 };
 
 /**
@@ -142,6 +143,7 @@ function update() {
     // Check whether to make a small particle explosin at the position
     // Also bounces the player up again
     if (isCollidingWithPlayer) {
+        play("explosion");
         color("yellow");
         particle(c.pos);
         // playerVel = -2.5
@@ -163,6 +165,7 @@ function update() {
     if (player.pos.y < -5){
       player.pos.y = -5
     }
+    play("laser");
     playerVel = 7
     canStomp = false;
     stompTicks = G.STOMP_TICKS
@@ -170,8 +173,9 @@ function update() {
 
   stompTicks--
 
-  if (stompTicks < 0){
-    canStomp = true
+  if ((stompTicks < 0)&&(canStomp == false)){
+    play("select")
+    canStomp = true;
   }
 
   // if (critterTicks < 0){
@@ -180,6 +184,7 @@ function update() {
 
   //If you hit the floor game over
   if (char("a", player.pos).isColliding.rect.black){
+    play("hit");
     end();
   }
 
